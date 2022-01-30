@@ -37,6 +37,7 @@ export const scoreWords = (dictionary: string[]): Map<string, number> => {
 
 export const makeGuess = (guess: string, result: GuessResult, dictionary: string[]): string[] => {
   const newDictionary = dictionary.filter(word => {
+    // eslint-disable-next-line array-callback-return
     return word.split('').every((char, i) => {
       switch (result[i]) {
         case '⬜': return !word.includes(guess[i]!);

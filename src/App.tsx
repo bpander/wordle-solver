@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import sortBy from 'lodash.sortby';
 import { createStyles } from 'lib/createStyle';
 import clsx from 'clsx';
-import { replaceIndex } from 'lib/array';
+import { last, replaceIndex } from 'lib/array';
 
 const styles = createStyles({
   container: {
@@ -83,6 +83,23 @@ export const App: React.FC = () => {
     return topResult && topResult[0];
   }, [dict]);
 
+  const lastGuess = last(guesses);
+  const lastGuessResult = results[guesses.length - 1];
+  useEffect(() => {
+    if (!suggestion || !lastGuess || !lastGuessResult) return;
+    const knownCorrect = lastGuess.split('').filter((_, i) => lastGuessResult[i] === '🟩');
+    const knownPresent = lastGuess.split('').filter((_, i) => lastGuessResult[i] === '🟨');
+    setResult(suggestion.split('').map(char => {
+      if (knownCorrect.includes(char)) {
+        return '🟩';
+      }
+      if (knownPresent.includes(char)) {
+        return '🟨'
+      }
+      return '⬜';
+    }) as GuessResult);
+  }, [suggestion, lastGuess, lastGuessResult]);
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -130,9 +147,6 @@ export const App: React.FC = () => {
               if (suggestion) {
                 setGuesses([...guesses, suggestion]);
                 setResults([...results, result]);
-                setResult(result.map(charResult => {
-                  return charResult === '🟩' ? '🟩' : '⬜';
-                }) as typeof result);
                 setDict(makeGuess(suggestion, result, dict));
               }
             }}
