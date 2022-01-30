@@ -1,7 +1,13 @@
 import uniq from 'lodash.uniq'
 
-type CharResult = '⬜' | '🟨' | '🟩';
-type GuessResult = CharResult[];
+export type CharResult = '⬜' | '🟨' | '🟩';
+export type GuessResult = [
+  CharResult,
+  CharResult,
+  CharResult,
+  CharResult,
+  CharResult,
+];
 
 export const scoreCharacters = (dictionary: string[]): Map<string, number> => {
   const map = new Map<string, number>();
@@ -22,7 +28,7 @@ export const scoreWords = (dictionary: string[]): Map<string, number> => {
     const wordDeduped = uniq(word);
     for (let i = 0; i < wordDeduped.length; i++) {
       const char = wordDeduped[i];
-      score += charScores.get(char) || 0;
+      score += charScores.get(char!) || 0;
     }
     map.set(word, score);
   });
@@ -33,8 +39,8 @@ export const makeGuess = (guess: string, result: GuessResult, dictionary: string
   const newDictionary = dictionary.filter(word => {
     return word.split('').every((char, i) => {
       switch (result[i]) {
-        case '⬜': return !word.includes(guess[i]);
-        case '🟨': return char !== guess[i] && word.match(new RegExp(guess[i], 'g'));
+        case '⬜': return !word.includes(guess[i]!);
+        case '🟨': return char !== guess[i] && word.includes(guess[i]!);
         case '🟩': return char === guess[i];
       }
     });
