@@ -8,7 +8,7 @@ import { last, replaceIndex } from 'lib/array';
 
 const styles = createStyles({
   container: {
-    marginTop: 12,
+    paddingTop: 16,
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
@@ -16,21 +16,33 @@ const styles = createStyles({
   },
   wrapper: {
     width: '100%',
-    maxWidth: 350,
+    maxWidth: 360,
+    padding: '0 16px',
     display: 'flex',
     flexDirection: 'column',
   },
   row: {
     display: 'flex',
     justifyContent: 'space-between',
-    margin: -8,
+    margin: -4,
     '& + &': {
-      marginTop: 8,
+      marginTop: 4,
     },
   },
   rowActive: {
-    boxShadow: '0 0 1px 1px dodgerblue',
-    marginBottom: 12,
+    boxShadow: 'inset 0 0 0 1px dodgerblue',
+    marginBottom: 32,
+    position: 'relative',
+  },
+  rowActiveHint: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: '100%',
+    backgroundColor: 'dodgerblue',
+    color: '#ffffff',
+    padding: 4,
+    fontSize: 12,
   },
   tile: {
     width: '20%',
@@ -53,12 +65,12 @@ const styles = createStyles({
     backgroundColor: '#6aaa64',
   },
   button: {
-    backgroundColor: 'dodgerblue',
+    backgroundColor: '#e63946',
     border: 'none',
     width: '100%',
     color: '#ffffff',
-    fontWeight: 'bold',
     font: 'inherit',
+    fontWeight: 'bold',
     textTransform: 'uppercase',
     padding: 12,
     fontSize: 18,
@@ -139,6 +151,9 @@ export const App: React.FC = () => {
               {char}
             </button>
           ))}
+          <div className={styles.rowActiveHint}>
+            Tap the letters to change their color.
+          </div>
         </div>
         <div>
           <button
@@ -151,7 +166,7 @@ export const App: React.FC = () => {
               }
             }}
           >
-            Record result
+            Recommend next word
           </button>
         </div>
       </div>
