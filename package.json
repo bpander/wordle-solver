@@ -1,6 +1,7 @@
 {
   "name": "wordle-solver",
   "version": "0.1.0",
+  "homepage": "https://bpander.github.io/wordle-solver/build/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
